@@ -1,3 +1,5 @@
+'use server';
+
 import { db } from '@/db';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { revalidatePath } from 'next/cache';

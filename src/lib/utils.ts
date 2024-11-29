@@ -11,9 +11,7 @@ export function cn(...inputs: ClassValue[]) {
 //     : 'https://next-blog-cj.vercel.app/api';
 
 export const fetchUrl =
-  process.env.NODE_ENV === 'development'
-    ? 'http://localhost:3000/api'
-    : undefined;
+  process.env.NODE_ENV === 'development' ? 'http://localhost:3000/api' : '';
 
 type ResponseData = {
   category: string;
