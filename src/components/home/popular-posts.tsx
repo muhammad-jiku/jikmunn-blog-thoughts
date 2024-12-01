@@ -10,7 +10,7 @@ export default function PopularPosts() {
   const { data, error, isLoading } = useSWR(fetchUrl, fetcher);
 
   console.log('popular posts data ', data);
-  if (error) return <div>Failed to load</div>;
+  if (error) return <></>;
   if (isLoading) return <SkeletonCard />;
 
   return (
