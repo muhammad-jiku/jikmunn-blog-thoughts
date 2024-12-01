@@ -28,7 +28,7 @@ export function MainNav({ className }: { className?: string }) {
       <Link href={'/'}>
         <div className='flex items-center justify-between w-32'>
           <Icons.logo className='h-6 w-6' />
-          <p>Blog Thoughts</p>
+          <p className='text-sm'>Blog Thoughts</p>
         </div>
       </Link>
       <NavigationMenu>

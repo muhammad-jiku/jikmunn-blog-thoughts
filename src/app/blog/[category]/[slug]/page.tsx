@@ -8,22 +8,24 @@ import { notFound } from 'next/navigation';
 import { formatDate, getBlogPosts } from '../../utils';
 
 export async function generateStaticParams() {
-  const posts = getBlogPosts();
+  const posts = await getBlogPosts();
 
   return posts.map((post) => ({
     slug: post.slug,
+    category: post.metadata.category,
   }));
 }
 
 export function generateMetadata({
   params,
 }: {
-  params: { slug: string; category: string };
+  params: {
+    slug: string;
+    category: string;
+  };
 }) {
   const post = getBlogPosts().find((post) => post.slug === params.slug);
-  if (!post) {
-    return;
-  }
+  if (!post) return;
 
   const {
     title,
@@ -31,10 +33,6 @@ export function generateMetadata({
     summary: description,
     image,
   } = post.metadata;
-
-  const ogImage = image
-    ? image
-    : `${baseUrl}/og?title=${encodeURIComponent(title)}`;
 
   return {
     title,
@@ -44,24 +42,27 @@ export function generateMetadata({
       description,
       type: 'article',
       publishedTime,
-      url: `${baseUrl}/blog/${post?.metadata.category}/${post?.slug}}`,
-      images: [{ url: ogImage }],
+      url: `${baseUrl}/blog/${post.metadata.category}/${post.slug}`,
+      images: [{ url: image || `${baseUrl}/og?title=${title}` }],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: [ogImage],
+      images: [image || `${baseUrl}/og?title=${title}`],
     },
   };
 }
 
-export default function Page({
+export default async function Page({
   params,
 }: {
-  params: { category: string; slug: string };
+  params: {
+    category: string;
+    slug: string;
+  };
 }) {
-  const post = getBlogPosts().find((post) => post.slug === params.slug);
+  const post = await getBlogPosts().find((post) => post.slug === params.slug);
 
   if (!post) {
     notFound();

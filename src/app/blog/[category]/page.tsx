@@ -6,9 +6,10 @@ import { notFound } from 'next/navigation';
 import { getBlogPosts } from '../utils';
 
 export async function generateStaticParams() {
-  const posts = getBlogPosts();
+  const posts = await getBlogPosts();
 
   return posts.map((post) => ({
+    // slug: post.slug,
     category: post.metadata.category,
   }));
 }
@@ -22,14 +23,21 @@ export function generateMetadata({ params }: { params: { category: string } }) {
   };
 }
 
-export default function Page({ params }: { params: { category: string } }) {
-  const posts = getBlogPosts().filter(
+export default async function Page({
+  params,
+}: {
+  params: {
+    category: string;
+  };
+}) {
+  const posts = await getBlogPosts().filter(
     (post) => post.metadata.category === params.category
   );
 
   if (!posts.length) {
     notFound();
   }
+
   return (
     <>
       <Header>

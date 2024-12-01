@@ -3,14 +3,17 @@
 import { createSubscriber } from '@/lib/actions';
 import { POSTS } from '@/lib/constants';
 import Link from 'next/link';
-import { useFormState } from 'react-dom';
+import { useActionState } from 'react';
 import { Icons } from './icons';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 
 export default function Footer() {
+  const date = new Date();
+  const year = date.getFullYear();
   const initialState = { message: '', errors: {} };
-  const [state, dispatch] = useFormState(createSubscriber, initialState);
+  const [state, dispatch] = useActionState(createSubscriber, initialState);
+
   return (
     <footer className='bg-gray-100 py-8 dark:bg-gray-800 mt-10'>
       <div className='container mx-auto px-4 md:px-6'>
@@ -133,7 +136,7 @@ export default function Footer() {
           </div>
         </div>
         <div className='mt-8 border-t border-gray-200 pt-4 text-center text-xs text-gray-500 dark:border-gray-700 dark:text-gray-400'>
-          &copy; 2024 Blog Thoughts. All rights reserved.
+          &copy; {year} Blog Thoughts. All rights reserved.
         </div>
       </div>
     </footer>

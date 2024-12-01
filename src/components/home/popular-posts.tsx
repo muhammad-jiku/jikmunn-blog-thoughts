@@ -9,6 +9,7 @@ import SkeletonCard from '../skeleton/popular-posts-skeleton';
 export default function PopularPosts() {
   const { data, error, isLoading } = useSWR(fetchUrl, fetcher);
 
+  console.log('popular posts data ', data);
   if (error) return <div>Failed to load</div>;
   if (isLoading) return <SkeletonCard />;
 
